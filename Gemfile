@@ -19,6 +19,9 @@ gem 'coffee-rails', '~> 4.1.0'
 # bootstrap framework
 gem 'bootstrap-sass', '3.3.5.1'
 
+gem 'redis'
+gem 'redis-namespace'
+
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
