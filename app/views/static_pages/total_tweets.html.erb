@@ -1,5 +1,5 @@
 
-<%= render partial: "layouts/jumbotron", locals: {heading: "Tweet Breakdown"} %>
+<%= render partial: "layouts/jumbotron", locals: {heading: "InstaFeedback"} %>
 
 
 <div class="container">
@@ -7,7 +7,7 @@
 		<% @tweets.each_with_index do |x, y| %>
 			<div class="col-md-12 tweets">
 				<h4> <%= y %> </h4> <br> 
-				<%= ActiveSupport::JSON.encode(x) %> <br> <br> 
+				<%= x.full_text %> <br> <br> 
 			</div>
 		<% end %>
 	</div>
