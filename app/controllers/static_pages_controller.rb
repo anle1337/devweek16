@@ -9,14 +9,14 @@ class StaticPagesController < ApplicationController
 
 	def redis_test
 
-		@redis = Redis.new.hgetall(1)["test_string"]
+		@redis = $redis.hgetall(1)["test_string"]
 	end
 
 	def update_redis
 
 
-	redis = Redis.new
-	redis.hmset(1, "test_string", params[:hello][:text])
+
+	$redis.hmset(1, "test_string", params[:hello][:text])
 
 		params[:hello][:text]
 		redirect_to redis_test_path
