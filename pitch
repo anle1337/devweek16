@@ -1,0 +1,18 @@
+- intro:
+    - long lines at conferences
+    - other complaints
+    - praises
+- what our app uses
+    - twitter api
+    - redis backend storage
+    - Cortana analytics:
+        - the text analytics APIs: read the tweets and score it: happy vs sad
+        - Emotion API: The emotions detected are anger, contempt, disgust, fear, happiness, neutral, sadness, and surprise.
+- how our app works:
+    - pulls twitter feed hourly
+    - tags it using the cortana analytics whether happy or sad
+    - displays it split between 2 lists
+-how does this help?
+    - able to get instafeedback on conferences
+    - provides for better conference experience
+    
