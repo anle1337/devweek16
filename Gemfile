@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
-<<<<<<< HEAD
-=======
-ruby '2.2.3'
->>>>>>> d09ebe617e415e0054a7f8d4133db89934075c29
+
+ruby '2.2.1'
+
 
 # gem for http GET and POST to APIs
 gem 'httparty'
@@ -10,6 +9,7 @@ gem 'httparty'
 #twitter api gem
 gem 'twitter'
 
+gem 'sass-rails', '~> 5.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
@@ -24,7 +24,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 
 # bootstrap framework
-gem 'bootstrap-sass', '3.3.6'
+gem 'bootstrap-sass', '3.3.5.1'
 gem 'autoprefixer-rails'
 
 gem 'redis'

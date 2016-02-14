@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
+
   root 'static_pages#home'
   get 'home' => 'static_pages#home'
   get 'total_tweets' => 'static_pages#total_tweets'
@@ -9,13 +9,10 @@ Rails.application.routes.draw do
   post 'update_redis' => 'static_pages#update_redis'
 
 
-=======
-<<<<<<< HEAD
-=======
+
 
   get 'home' => 'static_pages#home'
->>>>>>> e737b8fd328cf5f5870f7e2358b3e4f7961364f1
->>>>>>> 89e025ef79080f94d0553f6194ed0be2b3a770f3
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
