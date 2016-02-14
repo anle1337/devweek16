@@ -1,0 +1,26 @@
+<%= render partial: "layouts/jumbotron", locals: {heading: "Redis Test"} %>
+
+<!-- <h3>  @test.word %> </h3> -->
+
+
+<% if flash[:success] %>
+	<h3> <%= flash[:success] %> </h3>
+<% end %>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<%= form_for :hello, url: update_redis_path, method: :post do |f| %>
+				<%= f.label "text" %> <br>
+				<%= f.text_field "text" %> <br>
+
+				<%= f.submit "submit" %>
+
+			 <% end %>
+		</div>
+	</div>
+</div>
+
+
+<h1> <%= @redis %> </h1>

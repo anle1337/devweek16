@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
   get 'home' => 'static_pages#home'
+  get 'total_tweets' => 'static_pages#total_tweets'
+  get 'redis_test' => 'static_pages#redis_test'
+
+  post 'update_redis' => 'static_pages#update_redis'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

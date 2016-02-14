@@ -1,0 +1,17 @@
+
+<%= render partial: "layouts/jumbotron", locals: {heading: "Tweet Breakdown"} %>
+
+
+<div class="container">
+	<div class="row">
+		<% @tweets.each_with_index do |x, y| %>
+			<div class="col-md-12 tweets">
+				<h4> <%= y %> </h4> <br> 
+				<%= ActiveSupport::JSON.encode(x) %> <br> <br> 
+			</div>
+		<% end %>
+	</div>
+</div>
+
+
+
