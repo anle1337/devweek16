@@ -18,7 +18,7 @@ class StaticPagesController < ApplicationController
 	end
 
 	def total_tweets
-		
+		#gets the new update from redis
 		@words = {}
 		@tweets = $twitter.search("#devweek16", {:search_type => "recent"}).each do |tweet|
 
@@ -36,12 +36,18 @@ class StaticPagesController < ApplicationController
 		end
 		@words = @words.sort_by { |word, appearances| -appearances}
 		
-		
+		#sponser scoreboard
 		sponsers = %w{galvanize codeanywhere concierge dji flowroute havenondemand ibm capitalone cortical devbootcamp equinix gupshup intuit kony magnet microsoft netapp redislabs theta sparkpost}
-		
 		@tweetedSponsers = @words.select {|key, value| sponsers.include? key }
 		
+		#saved info
+		@oldRedis = $redis.hget(1, "tweet") || ""
 		
+		
+		#new info
+		$redis.hset(1, "tweet", @tweets)
+		
+		@newRedis = $redis.hget(1, "tweet")
 		
 	end
 
