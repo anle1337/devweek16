@@ -4,10 +4,10 @@
 
 <div class="container">
 	<div class="row">
-		<% @tweets.each_with_index do |x, y| %>
+		<% @words.each do |x| %>
 			<div class="col-md-12 tweets">
-				<h4> <%= y %> </h4> <br> 
-				<%= x.full_text %> <br> <br> 
+				
+				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
 			</div>
 		<% end %>
 	</div>
