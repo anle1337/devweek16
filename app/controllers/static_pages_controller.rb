@@ -18,47 +18,12 @@ class StaticPagesController < ApplicationController
 	end
 
 	def total_tweets
-		#gets the new update from redis
-		@words = {}
-		@tweets = {}
-		tweets = $twitter.search("#devweek16", {:search_type => "recent"})
-		tweets.each do |tweet|
-			@tweets[tweet.id] = {"full_text" => tweet.full_text, "created_at"=> tweet.created_at}
-
-			a = tweet.full_text.downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
-			a.pop
-
-			a.each do |word|
-
-				if @words.keys.include?(word) != true
-					@words[word] = 1
-				else
-					@words[word] +=1
-				end
-			end
-		end
-		@words = @words.sort_by { |word, appearances| -appearances}
-		
-		#sponser scoreboard
-		sponsers = %w{galvanize codeanywhere concierge dji flowroute havenondemand ibm capitalone cortical devbootcamp equinix gupshup intuit kony magnet microsoft netapp redislabs theta sparkpost}
-		@tweetedSponsers = @words.select {|key, value| sponsers.include? key }
-		
-		#old info
-		@oldRedis = $redis.hget(1, "all_tweets") || ""
-		
-		
-		#new info - input into redis as JSON
-		$redis.hset(1, "all_tweets", JSON.generate(@tweets))
-		
-		stringRedis = $redis.hget(1, "all_tweets")
-		@newRedis = JSON.parse stringRedis
-		
-		def count (words, tweets)
-			#words = {}
+		#returns a hash with count of words
+		def count_appearances(tweets)
+			words = {}
 			#tweets = {id: {full_text : "tweet", created_at: "sometime"}, id2: {}}
 			tweets.each do |id, value|
-	
-				a = tweet["full_text"].downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
+				a = value["full_text"].downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
 				a.pop
 	
 				a.each do |word|
@@ -70,7 +35,35 @@ class StaticPagesController < ApplicationController
 					end
 				end
 			end
+			words.sort_by { |word, appearances| -appearances}
 		end
+
+		sponsers = %w{galvanize codeanywhere concierge dji flowroute havenondemand ibm capitalone cortical devbootcamp equinix gupshup intuit kony magnet microsoft netapp redislabs theta sparkpost}
+
+		#old info retreived from redis
+		@oldRedis = JSON.parse $redis.hget(1, "all_tweets") || ""
+		@oldWordsCount = count_appearances(@oldRedis)
+
+		
+		#new info - input into redis as JSON
+		getNewTweets = $twitter.search("#devweek16", {:search_type => "recent"})
+		
+		#input new tweets into redis
+		@tweetsToInput = {}
+		getNewTweets.each do |tweet|
+			@tweetsToInput[tweet.id] = {"full_text" => tweet.full_text, "created_at" => tweet.created_at}
+		end
+		
+		#retreive new tweets from redis
+		$redis.hset(1, "all_tweets", JSON.generate(@tweetsToInput))
+		stringRedis = $redis.hget(1, "all_tweets")
+		@newRedis = JSON.parse stringRedis
+		@newWordsCount = count_appearances(@newRedis)
+		
+		#sponser scoreboard
+		@tweetedSponsers = @newWordsCount.select {|key, value| sponsers.include? key }
+		
+
 		
 		
 	end
