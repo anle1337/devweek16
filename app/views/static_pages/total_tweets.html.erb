@@ -13,7 +13,7 @@
 				Score:
 			</div>
 		</div>
-		<%@tweetedSponsers.each do |sponser| %>
+		<% @tweetedSponsers.each do |sponser| %>
 		<div class="row" >
 			
 			<div class="col-md-3 tweets">
@@ -27,10 +27,13 @@
 	
 	</div>
 
+
+
 <div class="container">
 	
 	<div class="row">
-		<% @words.each do |x| %>
+		<h2>Past search:</h2>
+		<% @oldWordsCount.each do |x| %>
 			<div class="col-md-12 tweets">
 				
 				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
@@ -39,6 +42,21 @@
 	
 	</div>
 </div>
+
+<div class="container">
+	
+	<div class="row">
+		<h2>New search:</h2>
+		<% @newWordsCount.each do |x| %>
+			<div class="col-md-12 tweets">
+				
+				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
+			</div>
+		<% end %>
+	
+	</div>
+</div>
+
 
 
 

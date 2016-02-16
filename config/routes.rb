@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'total_tweets' => 'static_pages#total_tweets'
   get 'redis_test' => 'static_pages#redis_test'
   get 'text_api' => 'static_pages#text_api'
+  
 
   post 'update_redis' => 'static_pages#update_redis'
 
