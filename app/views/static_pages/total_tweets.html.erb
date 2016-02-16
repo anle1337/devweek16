@@ -1,62 +1,72 @@
 
-<%= render partial: "layouts/jumbotron", locals: {heading: "InstaFeedback"} %>
-
-<h2>Tweeted sponser scoreboard:</h2>
+<%= render partial: "layouts/jumbotron", locals: {heading: "nstaFeedback"} %>
 
 
 <div class="container">
-		<div class="row"> 
-			<div class="col-md-3 underline">
-				Sponser:
-			</div>
-			<div class="col-md-3 underline">
-				Score:
-			</div>
-		</div>
-		<% @tweetedSponsers.each do |sponser| %>
-		<div class="row" >
-			
-			<div class="col-md-3 tweets">
-				
-				<%= sponser[0].capitalize %> 
-				
-			</div>
-			<div class="col-md-3 tweets"><%=sponser[1] %></div>
-		</div>
-		<% end %>
-	
-	</div>
-
-
-
-<div class="container">
-	
 	<div class="row">
-		<h2>Past search:</h2>
-		<% @oldWordsCount.each do |x| %>
-			<div class="col-md-12 tweets">
-				
-				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
-			</div>
-		<% end %>
-	
-	</div>
-</div>
+		<span class="first">
+			<h2>Tweeted sponser scoreboard:</h2>
+			<span class="icon-edit new"></span>
+		</span>
+			<ul class="timeline">
+        <div class="bubble-container">
+        	<div class="bubble">
+						<div class="col-md-6 underline">
+							<strong>Sponser:</strong>
+						</div>
+						<div class="col-md-6 underline">
+							<strong>Score:</strong>
+						</div>
 
-<div class="container">
-	
-	<div class="row">
-		<h2>New search:</h2>
-		<% @newWordsCount.each do |x| %>
-			<div class="col-md-12 tweets">
-				
-				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
-			</div>
-		<% end %>
-	
+						<% @tweetedSponsers.each do |sponser| %>
+							<div class="arrow"></div>
+							<div class="col-md-6 tweets">
+								<%= sponser[0].capitalize %>
+							</div>
+							<div class="col-md-6 tweets"><%=sponser[1] %></div>
+						<% end %>
+					</div>
+				</div>
+			</ul>
 	</div>
 </div>
 
 
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-1">
+			<span class="first">
+    	<h2>Past search:</h2>
+    	<span class="icon-edit new"></span>
+    	</span>
+    		<ul class="timeline">
+        <div class="bubble-container">
+        	<div class="bubble">
+        <% @oldWordsCount.each do |x| %>
+					<div class="arrow"></div>
+					<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
+				<% end %>
+			</div>
+		</div>
+		</ul>
+	</div>
 
+		<div class="col-md-2"></div>
 
+		<div class="col-md-4">
+			<span class="first">
+			<h2>New search:</h2>
+			<span class="icon-edit new"></span>
+			</span>
+				<ul class="timeline">
+					<div class="bubble-container">
+						<div class="bubble">
+					<% @newWordsCount.each do |x| %>
+						<div class="arrow"></div>
+					<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
+			<% end %>
+		</div>
+	</div>
+</ul>
+	</div>
+</div>
