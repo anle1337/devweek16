@@ -32,10 +32,17 @@ class StaticPagesController < ApplicationController
 				else
 					@words[word] +=1
 				end
-			end	
+			end
 		end
-
 		@words = @words.sort_by { |word, appearances| -appearances}
+		
+		
+		sponsers = %w{galvanize codeanywhere concierge dji flowroute havenondemand ibm capitalone cortical devbootcamp equinix gupshup intuit kony magnet microsoft netapp redislabs theta sparkpost}
+		
+		@tweetedSponsers = @words.select {|key, value| sponsers.include? key }
+		
+		
+		
 	end
 
 	def update_tweets
@@ -83,5 +90,8 @@ class StaticPagesController < ApplicationController
 		redirect_to redis_test_path
 		flash[:success] = "#{params}"
 	end
+	
+	
+	
 end
 

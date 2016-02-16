@@ -1,8 +1,34 @@
 
 <%= render partial: "layouts/jumbotron", locals: {heading: "InstaFeedback"} %>
 
+<h2>Tweeted sponser scoreboard:</h2>
+
 
 <div class="container">
+		<div class="row"> 
+			<div class="col-md-3 underline">
+				Sponser:
+			</div>
+			<div class="col-md-3 underline">
+				Score:
+			</div>
+		</div>
+		<%@tweetedSponsers.each do |sponser| %>
+		<div class="row" >
+			
+			<div class="col-md-3 tweets">
+				
+				<%= sponser[0].capitalize %> 
+				
+			</div>
+			<div class="col-md-3 tweets"><%=sponser[1] %></div>
+		</div>
+		<% end %>
+	
+	</div>
+
+<div class="container">
+	
 	<div class="row">
 		<% @words.each do |x| %>
 			<div class="col-md-12 tweets">
@@ -10,6 +36,7 @@
 				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
 			</div>
 		<% end %>
+	
 	</div>
 </div>
 
