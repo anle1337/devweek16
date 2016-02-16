@@ -20,7 +20,10 @@ class StaticPagesController < ApplicationController
 	def total_tweets
 		#gets the new update from redis
 		@words = {}
-		@tweets = $twitter.search("#devweek16", {:search_type => "recent"}).each do |tweet|
+		@tweets = {}
+		tweets = $twitter.search("#devweek16", {:search_type => "recent"})
+		tweets.each do |tweet|
+			@tweets[tweet.id] = {"full_text" => tweet.full_text, "created_at"=> tweet.created_at}
 
 			a = tweet.full_text.downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
 			a.pop
@@ -40,14 +43,35 @@ class StaticPagesController < ApplicationController
 		sponsers = %w{galvanize codeanywhere concierge dji flowroute havenondemand ibm capitalone cortical devbootcamp equinix gupshup intuit kony magnet microsoft netapp redislabs theta sparkpost}
 		@tweetedSponsers = @words.select {|key, value| sponsers.include? key }
 		
-		#saved info
-		@oldRedis = $redis.hget(1, "tweet") || ""
+		#old info
+		@oldRedis = $redis.hget(1, "all_tweets") || ""
 		
 		
-		#new info
-		$redis.hset(1, "tweet", @tweets)
+		#new info - input into redis as JSON
+		$redis.hset(1, "all_tweets", JSON.generate(@tweets))
 		
-		@newRedis = $redis.hget(1, "tweet")
+		stringRedis = $redis.hget(1, "all_tweets")
+		@newRedis = JSON.parse stringRedis
+		
+		def count (words, tweets)
+			#words = {}
+			#tweets = {id: {full_text : "tweet", created_at: "sometime"}, id2: {}}
+			tweets.each do |id, value|
+	
+				a = tweet["full_text"].downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
+				a.pop
+	
+				a.each do |word|
+	
+					if words.keys.include?(word) != true
+						words[word] = 1
+					else
+						words[word] +=1
+					end
+				end
+			end
+		end
+		
 		
 	end
 
