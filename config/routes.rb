@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'text_api' => 'static_pages#text_api'
 
   post 'update_redis' => 'static_pages#update_redis'
-
+  post 'update_tweets' => 'static_pages#update_tweets'
 
 
 

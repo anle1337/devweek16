@@ -20,9 +20,10 @@ class StaticPagesController < ApplicationController
 	def total_tweets
 		
 		@words = {}
+		@hashtag_inc = {}
 		@tweets = $twitter.search("#devweek16", {:search_type => "recent"}).each do |tweet|
 
-			a = tweet.full_text.downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
+			a = tweet.full_text.downcase.gsub(/[^#a-z0-9\s]/i, '').split(" ")
 			a.pop
 
 			a.each do |word|
@@ -32,10 +33,23 @@ class StaticPagesController < ApplicationController
 				else
 					@words[word] +=1
 				end
+
+				if word.include?("#")
+					if @hashtag_inc.keys.include?(word) != true
+						@hashtag_inc[word] = 1
+					else
+						@hashtag_inc[word] +=1
+					end
+				end
 			end	
 		end
 
 		@words = @words.sort_by { |word, appearances| -appearances}
+		@hashtag_inc = @hashtag_inc.sort_by { |word, appearances| -appearances}
+
+
+
+
 	end
 
 	def update_tweets
@@ -74,6 +88,7 @@ class StaticPagesController < ApplicationController
 	def redis_test
 
 		@redis = $redis.hgetall(1)["test_string"]
+
 	end
 
 	def update_redis
@@ -81,7 +96,7 @@ class StaticPagesController < ApplicationController
 
 		params[:hello][:text]
 		redirect_to redis_test_path
-		flash[:success] = "#{params}"
+		flash[:success] = "#{params[:hello]}"
 	end
 end
 

@@ -1,16 +1,32 @@
 
 <%= render partial: "layouts/jumbotron", locals: {heading: "InstaFeedback"} %>
 
+<div class= "container">
+	<div class="row">
+		<div class="col-md-4">
+			<%= form_for :tweetz, url: update_tweets_path, method: :post do |f| %>
+				<%= f.submit "Update", class: "btn btn-primary" %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+
 
 <div class="container">
-	<div class="row">
-		<% @words.each do |x| %>
+	<p> <%= @hashtag_inc.inspect %> </p>
+</div>
+
+
+<div class="container">
+	<% @words.each do |x| %>
+		<div class="row">
 			<div class="col-md-12 tweets">
 				
 				<p> The word <strong><%= x[0] %></strong> was used <%= x[1] %> times</p>
 			</div>
-		<% end %>
-	</div>
+		</div>
+	<% end %>
 </div>
 
 
