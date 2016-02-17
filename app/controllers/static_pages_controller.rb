@@ -19,13 +19,21 @@ class StaticPagesController < ApplicationController
 
 	def total_tweets
 		
-		@tweetedSponsors = JSON.parse($redis.hget(1, "tweetedSponsors").gsub("=>", ":")).sort_by { |word, appearances| -appearances}
+		if ($redis.hget(1, "tweetedSponsors") == nil)
 
-		@words = JSON.parse($redis.hget(1, "words").gsub("=>", ":")).sort_by { |word, appearances| -appearances}
+			@tweetedSponsors = ["a"]
+			@words = ["a"]
+			@hashtag_inc = ["a"]
 
-		@hashtag_inc = JSON.parse($redis.hget(1, "hashtag_inc").gsub("=>", ":")).sort_by { |word, appearances| -appearances}
+		else
 
+			@tweetedSponsors = JSON.parse($redis.hget(1, "tweetedSponsors").gsub("=>", ":")).sort_by { |word, appearances| -appearances} || ""
 
+			@words = JSON.parse($redis.hget(1, "words").gsub("=>", ":")).sort_by { |word, appearances| -appearances} || ""
+
+			@hashtag_inc = JSON.parse($redis.hget(1, "hashtag_inc").gsub("=>", ":")).sort_by { |word, appearances| -appearances} || ""
+
+		end
 
 	end
 

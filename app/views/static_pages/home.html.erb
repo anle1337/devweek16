@@ -1,14 +1,13 @@
 
-<%= render partial: "layouts/jumbotron", locals: {heading: "InstaFeedback"} %>
+<%= render partial: "layouts/jumbotron", locals: {heading: "nstaFeedback"} %>
 
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
-		<h3> <%= link_to("Tweet Breakdown", total_tweets_path) %></h3>
-		<h3> <%= link_to("Redis Test", redis_test_path) %></h3>
-		<h3> <%= link_to("Text API", text_api_path) %></h3>
-	  
+		<h2> <%= link_to("Tweet Breakdown", total_tweets_path) %></h2>
+		<h2> <%= link_to("Redis Test", redis_test_path) %></h2>
+		<h2> <%= link_to("Text API", text_api_path)%></h2>
 		</div>
 	</div>
 </div>
@@ -38,7 +37,7 @@
 
 
 <!-- =============== SEARCH BAR =============== -->
-<!-- 
+<!--
 <div class="container top-buffer">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
@@ -54,7 +53,7 @@
  -->
 
 <!-- =============== TWEETS =============== -->
-<!-- 
+<!--
 <div class="container top-buffer">
 
   <div class="row">
@@ -122,7 +121,7 @@
 
 <!-- =============== REPEAT =============== -->
 
-<!-- 
+<!--
     <div class="col-md-4 image">
       <%= image_tag("broken-heart.png", :alt => "rss feed", :size => "100x100") %>
       <div class="twt-wrapper">
