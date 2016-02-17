@@ -19,9 +19,23 @@ class StaticPagesController < ApplicationController
 
 	def total_tweets
 		
+		@tweetedSponsors = JSON.parse($redis.hget(1, "tweetedSponsors").gsub("=>", ":")).sort_by { |word, appearances| -appearances}
+
+		@words = JSON.parse($redis.hget(1, "words").gsub("=>", ":")).sort_by { |word, appearances| -appearances}
+
+		@hashtag_inc = JSON.parse($redis.hget(1, "hashtag_inc").gsub("=>", ":")).sort_by { |word, appearances| -appearances}
+
+
+
+	end
+
+	def update_tweets
+
+		sponsors = %w{galvanize codeanywhere concierge dji flowroute havenondemand ibm capitalone cortical devbootcamp equinix gupshup intuit kony magnet microsoft netapp redislabs theta sparkpost}
+		@tweetedSponsors = Hash.new(0)
 		@words = {}
 		@hashtag_inc = {}
-		@tweets = $twitter.search("#devweek16", {:search_type => "recent"}).each do |tweet|
+		@tweets = $twitter.search("#{params[:search][:text]}", {:search_type => "recent"}).each do |tweet|
 
 			a = tweet.full_text.downcase.gsub(/[^#a-z0-9\s]/i, '').split(" ")
 			a.pop
@@ -29,7 +43,7 @@ class StaticPagesController < ApplicationController
 			a.each do |word|
 
 				if @words.keys.include?(word) != true
-					@words[word] = 1
+						@words[word] = 1
 				else
 					@words[word] +=1
 				end
@@ -41,45 +55,25 @@ class StaticPagesController < ApplicationController
 						@hashtag_inc[word] +=1
 					end
 				end
-			end	
-		end
 
-		@words = @words.sort_by { |word, appearances| -appearances}
-		@hashtag_inc = @hashtag_inc.sort_by { |word, appearances| -appearances}
-
-
-
-
-	end
-
-	def update_tweets
-		
-		@hashtag = params[:tweetz][:text]
-
-		@words = $twitter.search("#{@hashtag}", {:search_type => "recent"}).each do |tweet|
-
-			a = tweet.full_text.downcase.gsub(/[^a-z0-9\s]/i, '').split(" ")
-			a.pop
-
-			a.each do |word|
-
-				if @words.keys.include?(word) != true
-					@words[word] = 1
-				else
-					@words[word] +=1
+				sponsors.each do |sponsor|
+					if word.include?(sponsor)
+						@tweetedSponsors[sponsor] +=1
+					end
 				end
-			end	
+
+			end
 		end
+		
 
-		@words.take(100).each.with_index do |word, index|
-
-			$redis.hmset(index, "tweet_info", word)
-
-		end
+		$redis.hset(1, "words", @words)
+		$redis.hset(1, "hashtag_inc", @hashtag_inc)
+		$redis.hset(1, "tweetedSponsors", @tweetedSponsors)
 
 
+		params[:search][:text]
 		redirect_to total_tweets_path
-		flash[:success] = "#{params}"
+		flash[:success] = "#{params[:search][:tweet]}"
 		
 	end
 
@@ -92,11 +86,29 @@ class StaticPagesController < ApplicationController
 	end
 
 	def update_redis
-	$redis.hmset(1, "test_string", params[:hello])
+	$redis.hset(1, "tweet", params[:search][:text])
 
-		params[:hello][:text]
+		params[:search][:text]
 		redirect_to redis_test_path
-		flash[:success] = "#{params[:hello]}"
+		flash[:success] = "#{params[:search]}"
 	end
+	
+	
 end
+
+# 1 {
+# 	Search => {
+# 		Hashtag => {
+# 			“top_words” => {
+# 		 		“word1” => 1,
+# 				 “word2” => 3 
+# 			},
+# 			“top_hashtags" => {
+# 				 “word1” => 1,
+# 				 “word2” => 3
+# 			}
+# 		}
+# 	}
+# }
+
 
