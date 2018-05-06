@@ -9,6 +9,8 @@ gem 'httparty'
 #twitter api gem
 gem 'twitter'
 
+gem "rails_12factor"
+
 gem 'sass-rails', '~> 5.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
